@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garry's *** - Sandbox Creativo</title>
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, white 50%, #f0f0f0 50%);
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Partículas de polvo flotando */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #ccc;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 10s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(5px);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+        }
+
+        /* Header con logo destacado */
+        header {
+            background-color: #00bfff;
+            /* Celeste como el logo */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        header:hover {
+            background-color: #009acd;
+        }
+
+        #logo {
+            max-width: 300px;
+            height: auto;
+            margin: 10px auto;
+            display: block;
+            border: 5px solid white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Layout principal con Grid - más espacioso */
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            /* Mayor espacio entre secciones */
+            padding: 40px;
+            /* Mayor padding */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        section {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0.9;
+            /* Textos menos opacos */
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            color: #00bfff;
+            border-bottom: 2px solid #00bfff;
+            padding-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        /* Imágenes destacadas */
+        .featured-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .featured-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Sección de API */
+        #api-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #e0ffff;
+        }
+
+        #api-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        #api-content img {
+            width: 120px;
+            height: auto;
+            border: 3px solid #00bfff;
+            border-radius: 50%;
+            transition: transform 0.5s ease;
+        }
+
+        #api-content img:hover {
+            transform: rotate(360deg);
+        }
+
+        button {
+            background-color: #00bfff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #009acd;
+        }
+
+        /* Drag-and-drop */
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #00bfff;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            cursor: grab;
+            border-radius: 10px;
+            user-select: none;
+            margin: 20px auto;
+        }
+
+        .dropzone {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            margin: 20px auto;
+            text-align: center;
+            line-height: 200px;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .dropzone.active {
+            border-color: #00bfff;
+            background-color: rgba(0, 191, 255, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Diseño responsivo */
+        @media (max-width: 992px) {
+            main {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+                padding: 30px;
+            }
+
+            #logo {
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 20px;
+            }
+
+            header {
+                font-size: 1.5em;
+            }
+
+            .draggable {
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+            }
+
+            .dropzone {
+                width: 150px;
+                height: 150px;
+                line-height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 15px;
+            }
+
+            #logo {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Garry&apos;s Mod</h1><!-- Logo destacado - Reemplaza 'logo.png' con tu imagen -->&nbsp;<img id="logo" src="logo.png" alt="Logo de Garry's Mod" width="20" height="20" style="margin: 0 auto; display: block; ">
+    </header>
+    <main>
+        <section id="creation">
+            <h2>Informaci&oacute;n de Creaci&oacute;n</h2>
+            <p>Garry&apos;s Mod *** creado por Garry Newman en 2004 como un mod **** Half-Life 2. Se convirti&oacute; en un juego independiente ** 2006 gracias a su popularidad. ******* el motor Source de Valve, permitiendo una libertad creativa sin precedentes.</p><!-- Imagen de gameplay - Reemplaza 'gameplay.jpg' --> <img class="featured-image" src="gameplay.jpg" alt="Gameplay de Garry's Mod" width="344">
+        </section>
+        <section id="advanced">
+            <h2>******** para ** &Eacute;poca</h2>
+            <p>En su lanzamiento, GMod ofrec&iacute;a ************ avanzadas **** ** Physics Gun y scripting ** Lua, permitiendo a los ********* crear mecanismos complejos y escenarios interactivos, algo revolucionario ** *** ******* ** la &eacute;poca.</p>
+        </section>
+        <section id="workshop">
+            <h2>El ******** de Steam</h2>
+            <p>El ***** Workshop es el coraz&oacute;n de la creatividad en Garry&apos;s Mod, *** millones de addons, ***** y modelos ******* *** ** comunidad. ******** ** compartici&oacute;n y descarga de ********* personalizado.</p><!-- Imagen del Workshop - Reemplaza 'workshop.jpg' --> <img class="featured-image" src="workshop.jpg" alt="Página principal del Workshop de Garry's Mod" width="344">
+        </section>
+        <section id="community">
+            <h2>Comunidad Activa</h2>
+            <p>A pesar de los a&ntilde;os, la comunidad sigue activa con servidores dedicados, mods y eventos. Modos como Trouble in Terrorist **** y roleplay mantienen el ***** vivo y atractivo para ****** generaciones.</p>
+        </section>
+        <section id="api-section">
+            <h2>Integraci&oacute;n API: Pok&eacute;mon en **** Style</h2>
+            <p>Imagina ***** Pok&eacute;*** ** GMod. Usa &apos;R&apos; en ** teclado o el bot&oacute;n para cargar *** aleatorio.</p>
+            <div id="api-content"><br></div><button id="reload-api">Recargar Pok&eacute;mon</button>
+        </section>
+        <section id="drag-section">
+            <h2>Interactividad: Drag-and-Drop</h2>
+            <p>Arrastra el objeto celeste a la zona, como manipular props en GMod.</p>
+            <div class="draggable" draggable="true" id="draggable">Prop</div>
+            <div class="dropzone" id="dropzone">**** Aqu&iacute;</div>
+        </section>
+    </main>
+    <footer>
+        <p>******* ** *********** ilimitada de Garry&apos;s Mod</p>
+    </footer>
+    <script>
+        // ***** partículas
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+            document.body.appendChild(particle);
+        }
+        
+        // Cargar Pokémon aleatorio
+        function loadRandomPokemon() {
+            const randomId = Math.floor(Math.random() * 898) + 1;
+            fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const content = document.getElementById('api-content');
+                    content.innerHTML = `
+                        <img src="${data.sprites.front_default}" alt="${data.name}">
+                        <p>${data.name.charAt(0).toUpperCase() + data.name.slice(1)}</p>
+                    `;
+                })
+                .catch(error => {
+                    document.getElementById('api-content').innerHTML = '<p>Error al cargar.</p>';
+                });
+        }
+        
+        loadRandomPokemon();
+        
+        document.getElementById('reload-api').addEventListener('click', loadRandomPokemon);
+        
+        document.addEventListener('keydown', (event) => {
+            if (event.key.toLowerCase() === 'r') {
+                loadRandomPokemon();
+            }
+        });
+        
+        // Drag-and-drop
+        const draggable = document.getElementById('draggable');
+        const dropzone = document.getElementById('dropzone');
+        
+        draggable.addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData('text/plain', 'prop');
+        });
+        
+        dropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropzone.classList.add('active');
+        });
+        
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('active');
+        });
+        
+        dropzone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropzone.classList.remove('active');
+            if (event.dataTransfer.getData('text/plain') === 'prop') {
+                dropzone.innerHTML = '¡Prop colocado!';
+                alert('¡Bien hecho! Como en GMod.');
+            }
+        });
+    </script>
+
+<div style="color: red">Prueba de Word a HTML - por favor <a href="https://wordtohtml.net/site/payment">Go PRO</a> para obtener el HTML completo.</div>
+</body>
+
+</html>
